@@ -9,6 +9,7 @@ setup(
     url = 'https://github.com/phojixthcu/tor-browser-selenium',
     packages=["tbselenium", "tbselenium.test"],
     install_requires=[
-        "selenium>=3.11"
+        "selenium>=3.11",
+        "selenium-wire>=1.0.5",
     ]
 )
