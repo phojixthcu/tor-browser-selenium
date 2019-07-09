@@ -3,3 +3,4 @@ stem
 pytest
 pytest-cov
 psutil
+selenium-wire

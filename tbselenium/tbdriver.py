@@ -7,7 +7,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.firefox.webdriver import WebDriver as FirefoxDriver
+#from selenium.webdriver.firefox.webdriver import WebDriver as FirefoxDriver
+from seleniumwire.webdriver import Firefox as FirefoxDriver
 import tbselenium.common as cm
 from tbselenium.utils import prepend_to_env_var, is_busy
 from tbselenium.tbbinary import TBBinary
