@@ -39,7 +39,7 @@ class TorBrowserDriver(FirefoxDriver):
                  extensions=[],
                  default_bridge_type="",
                  capabilities=None):
-
+        self.seleniumwire_options = {}
         self.tor_cfg = tor_cfg
         self.setup_tbb_paths(tbb_path, tbb_fx_binary_path,
                              tbb_profile_path, tor_data_dir)
@@ -51,11 +51,13 @@ class TorBrowserDriver(FirefoxDriver):
         self.export_env_vars()
         self.binary = self.get_tb_binary(logfile=tbb_logfile_path)
         self.binary.add_command_line_options('--class', '"Tor Browser"')
+
         super(TorBrowserDriver, self).__init__(firefox_profile=self.profile,
                                                firefox_binary=self.binary,
                                                capabilities=self.capabilities,
                                                timeout=cm.TB_INIT_TIMEOUT,
-                                               log_path=tbb_logfile_path)
+                                               log_path=tbb_logfile_path,
+                                               seleniumwire_options=self.seleniumwire_options)
         self.is_running = True
         sleep(1)
 
@@ -90,6 +92,14 @@ class TorBrowserDriver(FirefoxDriver):
 
         self.socks_port = socks_port
         self.control_port = control_port
+
+        self.seleniumwire_options = {
+            'proxy': {
+                'http': f'socks5h://localhost:{self.socks_port}',
+                'https': f'socks5h://localhost:{self.socks_port}',
+                'no_proxy': 'localhost,127.0.0.1,dev_server:8080'
+            }
+        }
 
     def setup_tbb_paths(self, tbb_path, tbb_fx_binary_path, tbb_profile_path,
                         tor_data_dir):
@@ -182,7 +192,7 @@ class TorBrowserDriver(FirefoxDriver):
         # TODO: investigate why we're asked to disable 'block_disk'
         set_pref('extensions.torbutton.block_disk', False)
         set_pref('extensions.torbutton.custom.socks_host', '127.0.0.1')
-        set_pref('extensions.torbutton.custom.socks_port', self.socks_port)
+        # set_pref('extensions.torbutton.custom.socks_port', self.socks_port)
         set_pref('extensions.torbutton.inserted_button', True)
         set_pref('extensions.torbutton.launch_warning', False)
         set_pref('privacy.spoof_english', 2)
@@ -214,8 +224,8 @@ class TorBrowserDriver(FirefoxDriver):
 
         set_pref('extensions.torbutton.prompted_language', True)
         # Configure Firefox to use Tor SOCKS proxy
-        set_pref('network.proxy.socks_port', self.socks_port)
-        set_pref('extensions.torbutton.socks_port', self.socks_port)
+        #set_pref('network.proxy.socks_port', self.socks_port)
+        #set_pref('extensions.torbutton.socks_port', self.socks_port)
         set_pref('extensions.torlauncher.control_port', self.control_port)
         self.set_tb_prefs_for_using_system_tor(self.control_port)
         # pref_dict overwrites above preferences
