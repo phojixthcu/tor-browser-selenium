@@ -45,7 +45,7 @@ class TorBrowserDriver(FirefoxDriver):
                              tbb_profile_path, tor_data_dir)
         self.profile = webdriver.FirefoxProfile(self.tbb_profile_path)
         self.install_extensions(extensions)
-        self.init_ports(tor_cfg, socks_port, control_port)
+        self.init_ports(tor_cfg, socks_port, control_port) # should write seleniumwire_options
         self.init_prefs(pref_dict, default_bridge_type)
         self.setup_capabilities(capabilities)
         self.export_env_vars()
@@ -97,7 +97,7 @@ class TorBrowserDriver(FirefoxDriver):
             'proxy': {
                 'http': f'socks5h://localhost:{self.socks_port}',
                 'https': f'socks5h://localhost:{self.socks_port}',
-                'no_proxy': 'localhost,127.0.0.1,dev_server:8080'
+                'no_proxy': 'localhost,127.0.0.1'
             }
         }
 
