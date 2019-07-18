@@ -94,10 +94,10 @@ class TorBrowserDriver(FirefoxDriver):
         self.control_port = control_port
 
         self.seleniumwire_options = {
-            'proxy': {
+            'proxy_config': {
                 'http': f'socks5h://localhost:{self.socks_port}',
                 'https': f'socks5h://localhost:{self.socks_port}',
-                'no_proxy': 'localhost,127.0.0.1'
+                # 'no_proxy': 'localhost,127.0.0.1'
             }
         }
 
